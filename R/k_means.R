@@ -12,6 +12,10 @@
 
 k_means <- function(dat, k, pca = FALSE) {
 
+    #Taking only numeric data
+    dat <- dat %>%
+        select(. ,where(is.numeric))
+
     #Number of rows/observations
     num_obs <- nrow(dat)
 
@@ -21,6 +25,7 @@ k_means <- function(dat, k, pca = FALSE) {
 
     #Vectors of clusters
     clusters <- c()
+    last_cluster <- c()
     dist <- c()
 
     #Loop to calculate Euclidean distance of each point from the randomly selected centers
@@ -28,15 +33,22 @@ k_means <- function(dat, k, pca = FALSE) {
 
         center_and_point <- dat[i, ] %>% rbind(centers)
 
-        dist <- dist(center_and_point, method = "euclidean")
+        dist <- dist(center_and_point, method = "euclidean", upper = FALSE)
+
+        closest_cluster <- dist[1:k] %>%
+            which.min()
+
+        clusters[i] <- closest_cluster
 
     }
 
+    stopifnot(clusters != last_cluster)
 
+    last_cluster <- clusters
 
 
     #Output cluster assignments, total sum of squares, at the minimum
-    return(dist)
+    return(clusters)
 
 
 }
