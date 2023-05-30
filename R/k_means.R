@@ -55,12 +55,5 @@ k_means <- function(dat, k, pca = FALSE) {
     #Output cluster assignments, total sum of squares, at the minimum
     return(cluster_assignments)
 
-
 }
-#Randomly select K points for K clusters
 
-#Measure distance between K1 and (K2 and K3) MSE, Euclidean Distance sqrt(x^2 + y^2)
-
-#Measure distance between all points in data and all K points. Assign to cluster that has smallest MSE
-
-#Assess quality of cluster by looking at variation in each cluster
