@@ -19,15 +19,24 @@ k_means <- function(dat, k, pca = FALSE) {
     random_obs <- sample(num_obs, size = k)
     centers <- slice(dat, random_obs)
 
+    #Vectors of clusters
+    clusters <- c()
+    dist <- c()
+
     #Loop to calculate Euclidean distance of each point from the randomly selected centers
     for(i in 1:num_obs) {
 
+        center_and_point <- dat[i, ] %>% rbind(centers)
 
+        dist <- dist(center_and_point, method = "euclidean")
 
     }
-    dist(dat[i, ], method = "euclidean")
 
-    return(centers)
+
+
+
+    #Output cluster assignments, total sum of squares, at the minimum
+    return(dist)
 
 
 }
