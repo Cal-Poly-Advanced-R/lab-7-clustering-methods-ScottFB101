@@ -12,11 +12,23 @@
 
 k_means <- function(dat, k, pca = FALSE) {
 
-    random_obs <- sample(nrow(dat), size = k)
+    #Number of rows/observations
+    num_obs <- nrow(dat)
 
+    #Randomly select K observations
+    random_obs <- sample(num_obs, size = k)
     centers <- slice(dat, random_obs)
 
+    #Loop to calculate Euclidean distance of each point from the randomly selected centers
+    for(i in 1:num_obs) {
+
+
+
+    }
+    dist(dat[i, ], method = "euclidean")
+
     return(centers)
+
 
 }
 #Randomly select K points for K clusters
