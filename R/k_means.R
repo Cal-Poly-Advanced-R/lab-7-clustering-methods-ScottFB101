@@ -42,13 +42,18 @@ k_means <- function(dat, k, pca = FALSE) {
 
     }
 
+    #Check if cluster assignment has changed
     stopifnot(clusters != last_cluster)
 
+    #Assigning new cluster assignments to variable so we can perform the check above
     last_cluster <- clusters
 
+    #Attaching cluster assignment to original data frame
+    cluster_assignments <- dat %>%
+        cbind(clusters)
 
     #Output cluster assignments, total sum of squares, at the minimum
-    return(clusters)
+    return(cluster_assignments)
 
 
 }
