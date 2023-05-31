@@ -84,11 +84,18 @@ k_means <- function(dat, k, pca = FALSE) {
         cbind(clusters) %>%
         cbind(smallest_distances)
 
+    browser()
+
     #Total Sum of Squares
     TSS <- total_sum_squares(center_of_dat, dat)
 
     #Output cluster assignments, total sum of squares, at the minimum
-    return(c(cluster_assignments, iterations))
+    results <- list("Clusterings" = cluster_assignments,
+                    "Cluster Means" = centers,
+                    "Iterations" = iterations,
+                    "Total Sum of Squares" = TSS)
+
+    return(results)
 
 }
 
@@ -100,6 +107,8 @@ k_means <- function(dat, k, pca = FALSE) {
 
 total_sum_squares <- function (center, dat) {
 
+   results <-  Rfast::total.dista(x = as.matrix(dat), y = matrix(center, nrow = 1))
 
+   return(results)
 
 }
