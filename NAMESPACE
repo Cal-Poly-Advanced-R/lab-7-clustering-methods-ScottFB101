@@ -3,4 +3,5 @@
 export("%>%")
 export(k_means)
 import(dplyr)
+import(stats)
 importFrom(magrittr,"%>%")
