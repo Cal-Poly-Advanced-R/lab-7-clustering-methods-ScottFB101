@@ -2,6 +2,8 @@
 
 export("%>%")
 export(k_means)
+export(plot_clusterings)
 import(dplyr)
+import(ggplot2)
 import(stats)
 importFrom(magrittr,"%>%")
