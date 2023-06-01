@@ -59,6 +59,6 @@ In that case, don't forget to commit and push the resulting figure files, so the
 ## Hierarchical Agglomerative Clustering
 
 ```{r}
-#hier_clust(iris, method = "euclidean")
+hier_clust(iris)
 ```
 
