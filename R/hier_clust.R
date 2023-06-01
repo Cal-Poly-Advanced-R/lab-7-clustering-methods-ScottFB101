@@ -1,9 +1,10 @@
 
 #' Agglomerative Hierarchical Clustering Method`
 #'
-#' @param data
+#' @param data A data frame
+#' @param method A string that states which distance method the user wants to use
 #'
-#' @return
+#' @return A list with clustering path and
 #'
 #' @export
 #'
@@ -12,22 +13,18 @@ hier_clust <- function(data, method = "euclidean") {
     avail_methods <- c("euclidean", "maximum", "manhattan", "canberra", "binary", "minkowski")
 
     if(!(method %in% avail_methods)) {
-
         stop("Please put your distance calculation method in all lower case")
     }
 
     n <- nrow(data)
-
     iterations <- 0 #will count the height of the dendrogram by adding 1 to each
-
     distances <- dist(data, method = method) #distance matrix
 
     clusters <- list() #the list from which the clusters will be stored and manipulated
-
-    for(val in 1:n) {
+    for(i in 1:n) {
         clusters[[i]] <- i
+        print(clusters[[i]])
     }
-
 
     while(length(clusters) > 1) { #keep iterating until there is only one cluster left
 
@@ -35,9 +32,12 @@ hier_clust <- function(data, method = "euclidean") {
         merge_index <- NULL
 
         for(i in 1:length(clusters)) {
-            for(j in (i + 1:length(clusters))) {
+            for(j in 1:length(clusters)) {
                 cluster1 <- clusters[[i]] #pulls the index of the cluster
                 cluster2 <- clusters[[j]]
+
+                print(clusters[[i]])
+                print(cluster2[[j]])
 
                 dist <- distances[cluster1, cluster2] #puts the indices of the clusters into the dist matrix
 
