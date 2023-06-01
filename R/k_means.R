@@ -3,6 +3,7 @@
 #' @param dat A data set
 #' @param k The number of desired clusters
 #' @param pca Boolean value indicating whether or not to run Principal Component Analysis prior to K means
+#' @param k_means_plus Boolean value indicating whether or not to choose the initial clusters in a "smart" way
 #'
 #' @return Returns cluster assignments, the mean centroid of each cluster, the number of iterations to
 #' achieve the clustering, and the total sum of squares of the data to the mean centroid of the data set.
