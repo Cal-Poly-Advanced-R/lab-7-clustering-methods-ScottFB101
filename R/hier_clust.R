@@ -17,13 +17,13 @@ hier_clust <- function(data, method = "euclidean") {
     }
 
     n <- nrow(data)
+
     iterations <- 0 #will count the height of the dendrogram by adding 1 to each
-    distances <- dist(data, method = method) #distance matrix
+    distances <- as.matrix(dist(data, method = method, diag = TRUE, upper = TRUE)) #distance matrix
 
     clusters <- list() #the list from which the clusters will be stored and manipulated
     for(i in 1:n) {
         clusters[[i]] <- i
-        print(clusters[[i]])
     }
 
     while(length(clusters) > 1) { #keep iterating until there is only one cluster left
@@ -33,17 +33,21 @@ hier_clust <- function(data, method = "euclidean") {
 
         for(i in 1:length(clusters)) {
             for(j in 1:length(clusters)) {
-                cluster1 <- clusters[[i]] #pulls the index of the cluster
-                cluster2 <- clusters[[j]]
 
-                print(clusters[[i]])
-                print(cluster2[[j]])
+                if(i == j) {
 
-                dist <- distances[cluster1, cluster2] #puts the indices of the clusters into the dist matrix
+                } else {
+                    cluster1 <- clusters[[i]] #pulls the index of the cluster
+                    cluster2 <- clusters[[j]]
 
-                if(dist < min_dist) { #Sets the smallest distance between two points by finding the smallest distance value
-                    min_dist <- dist
-                    merge_index <- c(i, j) #index in clusters
+                    dist_val <- distances[cluster1, cluster2] #puts the indices of the clusters into the dist matrix
+
+                    print(dist_val)
+
+                    if(dist_val < min_dist) { #Sets the smallest distance between two points by finding the smallest distance value
+                        min_dist <- dist_val
+                        merge_index <- c(i, j) #index in clusters
+                    }
                 }
 
             }
@@ -56,7 +60,7 @@ hier_clust <- function(data, method = "euclidean") {
 
         #Average Linkage
 
-        for(i in 1:length(clusters) - 1) { #-1 to account for the potential cluster value
+        for(i in 1:length(clusters)) { #-1 to account for the potential cluster value
 
             cluster_i <- clusters[[i]]
 
