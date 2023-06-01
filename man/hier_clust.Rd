@@ -12,7 +12,7 @@ hier_clust(data, method = "euclidean")
 \item{method}{A string that states which distance method the user wants to use}
 }
 \value{
-A list with clustering path and
+A list with clustering path
 }
 \description{
 Agglomerative Hierarchical Clustering Method`
