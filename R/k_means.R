@@ -41,8 +41,6 @@ k_means <- function(dat, k, pca = FALSE, k_means_plus = TRUE) {
 
     }
 
-
-
     #Vectors of clusters
     clusters <- c(1)
     last_clusters <- c(0)
@@ -122,7 +120,7 @@ k_means <- function(dat, k, pca = FALSE, k_means_plus = TRUE) {
 
 #' Plots the results of k_means() clustering in the first two PC dimensions
 #'
-#' @param cluster_assignments Clusterings from k_means()
+#' @param cluster_assignments Clustering from k_means()
 #'
 #' @return A plot
 #'
@@ -159,6 +157,8 @@ plot_clusterings <- function(cluster_assignments) {
 #'
 #' @param center The center point of the data that all Euclidean distances will be calculated on
 #' @param dat A data set
+#'
+#' @return Total Sum of Squares for the distances from mean data point in the data set to all observations
 
 total_sum_squares <- function (center, dat) {
 

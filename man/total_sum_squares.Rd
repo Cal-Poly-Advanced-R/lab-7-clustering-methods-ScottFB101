@@ -11,6 +11,9 @@ total_sum_squares(center, dat)
 
 \item{dat}{A data set}
 }
+\value{
+Total Sum of Squares for the distances from mean data point in the data set to all observations
+}
 \description{
 Retrieves Total Sum of Squares
 }

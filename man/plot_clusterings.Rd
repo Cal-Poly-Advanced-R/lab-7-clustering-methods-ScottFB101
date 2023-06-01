@@ -7,7 +7,7 @@
 plot_clusterings(cluster_assignments)
 }
 \arguments{
-\item{cluster_assignments}{Clusterings from k_means()}
+\item{cluster_assignments}{Clustering from k_means()}
 }
 \value{
 A plot
