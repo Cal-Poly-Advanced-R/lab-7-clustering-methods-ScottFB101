@@ -100,6 +100,34 @@ k_means <- function(dat, k, pca = FALSE) {
 }
 
 
+#' Plots the results of k_means() clustering in the first two PC dimensions
+#'
+#' @param cluster_assignments Clusterings from k_means()
+#'
+#' @return A plot
+#'
+#' @import dplyr
+#' @import ggplot2
+#'
+#' @export
+
+plot_clusterings <- function(cluster_assignments) {
+    cluster_assignments %>%
+        as.data.frame() %>%
+        mutate(clusters = as.factor(.data$clusters)) %>%
+        ggplot(aes(
+            x = .data$Comp.1,
+            y = .data$Comp.2,
+            color = .data$clusters,
+            shape = .data$clusters,
+            group = .data$clusters
+        )) +
+        geom_point(size = 3) +
+        stat_ellipse() +
+        theme_minimal()
+}
+
+
 #' Retrieves Total Sum of Squares
 #'
 #' @param center The center point of the data that all Euclidean distances will be calculated on
