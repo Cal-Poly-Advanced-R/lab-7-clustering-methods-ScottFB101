@@ -119,6 +119,13 @@ k_means <- function(dat, k, pca = FALSE) {
 #' @export
 
 plot_clusterings <- function(cluster_assignments) {
+
+    if (!all(names(cluster_assignments)[1:3] == c("Comp.1", "Comp.2", "clusters"))) {
+        stop("Pass $Clusterings of k_means(dat, k, pca = TRUE)")
+    } else if (nrow(cluster_assignments) == 0) {
+        stop("cluster_assignments should have more than 0 rows")
+    }
+
     cluster_assignments %>%
         as.data.frame() %>%
         mutate(clusters = as.factor(.data$clusters)) %>%
