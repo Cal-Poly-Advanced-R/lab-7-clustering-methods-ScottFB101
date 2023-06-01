@@ -17,6 +17,13 @@ k_means <- function(dat, k, pca = FALSE) {
     dat <- dat %>%
         select(. ,where(is.numeric))
 
+    # Automatically perform PCA before clustering
+    if (pca == TRUE) {
+        dat_pca <- dat %>% select(c(1:2)) %>% princomp()
+        dat_pc_scores <- dat_pca$scores %>% as.data.frame()
+        dat <- dat_pc_scores
+    }
+
     #Number of rows/observations
     num_obs <- nrow(dat)
 
