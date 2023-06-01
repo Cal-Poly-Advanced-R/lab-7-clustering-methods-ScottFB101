@@ -12,6 +12,8 @@ k_means(dat, k, pca = FALSE, k_means_plus = TRUE)
 \item{k}{The number of desired clusters}
 
 \item{pca}{Boolean value indicating whether or not to run Principal Component Analysis prior to K means}
+
+\item{k_means_plus}{Boolean value indicating whether or not to choose the initial clusters in a "smart" way}
 }
 \value{
 Returns cluster assignments, the mean centroid of each cluster, the number of iterations to
