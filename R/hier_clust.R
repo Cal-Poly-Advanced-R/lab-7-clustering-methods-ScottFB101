@@ -59,10 +59,7 @@ hier_clust <- function(data, method = "euclidean") {
 
         #Average Linkage
 
-        for(i in 1:nrow(distances)) { #-1 to account for the potential cluster value
-#
-#             cluster_i <- clusters[[i]]
-#             print(cluster_i)
+        for(i in 1:nrow(distances)) {
 
             avg_dist <- sum(distances[merge_index[1], i], distances[merge_index[2], i]) / 2
             distances[merge_index[1], i] <- avg_dist
