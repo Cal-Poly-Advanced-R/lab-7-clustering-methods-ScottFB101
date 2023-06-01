@@ -4,14 +4,15 @@
 #' @param k The number of desired clusters
 #' @param pca Boolean value indicating whether or not to run Principal Component Analysis prior to K means
 #'
-#' @return
+#' @return Returns cluster assignments, the mean centroid of each cluster, the number of iterations to
+#' achieve the clustering, and the total sum of squares of the data to the mean centroid of the data set.
 #'
 #' @import dplyr
 #' @import stats
 #'
 #' @export
 
-k_means <- function(dat, k, pca = FALSE) {
+k_means <- function(dat, k, pca = FALSE, k_means_plus = TRUE) {
 
     #Taking only numeric data
     dat <- dat %>%
@@ -27,10 +28,20 @@ k_means <- function(dat, k, pca = FALSE) {
     #Number of rows/observations
     num_obs <- nrow(dat)
 
-    #Randomly select K observations
-    random_obs <- sample(num_obs, size = k)
-    #Create centers for reference
-    centers <- slice(dat, random_obs)
+    if(k_means_plus == TRUE) {
+
+        centers <- k_means_plus_plus(dat, k)
+
+    } else {
+
+        #Randomly select K observations
+        random_obs <- sample(num_obs, size = k)
+        #Create centers for reference
+        centers <- slice(dat, random_obs)
+
+    }
+
+
 
     #Vectors of clusters
     clusters <- c(1)
@@ -75,11 +86,15 @@ k_means <- function(dat, k, pca = FALSE) {
         last_clusters <- clusters
 
         #Finding new centers by taking mean of data points in each k-cluster, then removing cluster column
-        centers <- dat %>%
-            cbind(clusters) %>%
-            group_by(clusters) %>%
-            summarize_all(mean) %>%
-            select(-clusters)
+        if(k_means_plus == FALSE) {
+
+            centers <- dat %>%
+                cbind(clusters) %>%
+                group_by(clusters) %>%
+                summarize_all(mean) %>%
+                select(-clusters)
+
+        }
 
         #Counting number of iterations to get repeated k-means clustering
         iterations <- iterations + 1
@@ -90,8 +105,6 @@ k_means <- function(dat, k, pca = FALSE) {
     cluster_assignments <- dat %>%
         cbind(clusters) %>%
         cbind(smallest_distances)
-
-    browser()
 
     #Total Sum of Squares
     TSS <- total_sum_squares(center_of_dat, dat)
@@ -145,5 +158,60 @@ total_sum_squares <- function (center, dat) {
    results <-  Rfast::total.dista(x = as.matrix(dat), y = matrix(center, nrow = 1))
 
    return(results)
+
+}
+
+#' Run K-means ++ initialization method to determine initial centroid points
+#'
+#' @param dat A data set
+#' @param k Number of clusters
+#'
+#' @import dplyr
+#'
+#' @return Three points in the data set that will start as the inital centroids for each cluster
+
+k_means_plus_plus <- function(dat, k) {
+
+    #Taking only numeric data
+    dat <- dat %>%
+        select(. ,where(is.numeric))
+
+    #Number of rows/observations
+    num_obs <- nrow(dat)
+
+    #Randomly select 1st centroid
+    random_obs <- sample(num_obs, size = 1)
+    #Pull out first centroid
+    center <- slice(dat, random_obs)
+
+    #Vectors of distance
+    dist <- c(0)
+    centroids <- data.frame()
+
+    while (nrow(centroids) < k) {
+
+        #Loop to calculate Euclidean distance of each point from the 1st centroid
+        for(i in 1:num_obs) {
+
+            #Attaching observation to data frame of the randomly chosen k-clusters
+            center_and_point <- dat[i, ] %>% rbind(center)
+
+            #Measuring Euclidean distance between observation and k-clusters
+            dist[i] <- dist(center_and_point, method = "euclidean", upper = FALSE)
+
+        }
+
+        #Creating vector of weight probabilities, so furthest distance gets higher probability of being picked
+        probs <- dist^2 / sum(dist^2)
+
+        #Selecting next centroid using probability distribution
+        next_centroid <- dat[sample(nrow(dat), 1, prob = probs), ]
+
+        #Add the selected centroid to the list of centroids
+        centroids <- rbind(centroids, next_centroid)
+
+    }
+
+    return(centroids)
 
 }
