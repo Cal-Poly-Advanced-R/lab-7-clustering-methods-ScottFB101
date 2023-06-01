@@ -4,7 +4,7 @@
 #' @param data A data frame
 #' @param method A string that states which distance method the user wants to use
 #'
-#' @return A list with clustering path and
+#' @return A list with clustering path
 #'
 #' @export
 #'
