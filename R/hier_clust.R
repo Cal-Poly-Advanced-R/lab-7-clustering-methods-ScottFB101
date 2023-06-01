@@ -31,20 +31,19 @@ hier_clust <- function(data, method = "euclidean") {
         min_dist <- Inf
         merge_index <- NULL
 
-        for(i in 1:length(clusters)) {
-            for(j in 1:length(clusters)) {
+        for(i in 1:nrow(distances)) {
+            for(j in 1:nrow(distances)) {
 
                 if(i == j) {
 
                 } else {
-                    cluster1 <- clusters[[i]] #pulls the index of the cluster
-                    cluster2 <- clusters[[j]]
 
-                    dist_val <- distances[cluster1, cluster2] #puts the indices of the clusters into the dist matrix
+                    # cluster1 <- clusters[[i]] #pulls the index of the cluster
+                    # cluster2 <- clusters[[j]]
 
-                    print(dist_val)
+                    dist_val <- distances[i, j] #puts the indices of the clusters into the dist matrix
 
-                    if(dist_val < min_dist) { #Sets the smallest distance between two points by finding the smallest distance value
+                    if(all(dist_val < min_dist)) { #Sets the smallest distance between two points by finding the smallest distance value
                         min_dist <- dist_val
                         merge_index <- c(i, j) #index in clusters
                     }
@@ -60,21 +59,22 @@ hier_clust <- function(data, method = "euclidean") {
 
         #Average Linkage
 
-        for(i in 1:length(clusters)) { #-1 to account for the potential cluster value
+        for(i in 1:nrow(distances)) { #-1 to account for the potential cluster value
+#
+#             cluster_i <- clusters[[i]]
+#             print(cluster_i)
 
-            cluster_i <- clusters[[i]]
-
-            avg_dist <- sum(distances[merge_index[1], cluster_i], distances[merge_index[2], cluster_i]) / 2
-            distances[merge_index[1], cluster_i] <- avg_dist
-            distances[cluster_i, merge_index[1]] <- avg_dist
+            avg_dist <- sum(distances[merge_index[1], i], distances[merge_index[2], i]) / 2
+            distances[merge_index[1], i] <- avg_dist
+            distances[i, merge_index[1]] <- avg_dist
         }
 
-        distances[-merge_index[2], -merge_index[2]]
+        distances <- distances[-merge_index[2], -merge_index[2]]
 
     }
 
     iterations <- iterations + 1
 
-    return()
+    return(clusters[[1]])
 
 }
