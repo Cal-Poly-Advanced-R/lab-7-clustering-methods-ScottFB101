@@ -6,6 +6,14 @@
 \usage{
 hier_clust(data, method = "euclidean")
 }
+\arguments{
+\item{data}{A data frame}
+
+\item{method}{A string that states which distance method the user wants to use}
+}
+\value{
+A list with clustering path and
+}
 \description{
 Agglomerative Hierarchical Clustering Method`
 }
